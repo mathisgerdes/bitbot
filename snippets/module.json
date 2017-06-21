@@ -1,0 +1,11 @@
+{
+  "name": "blinky",
+  "version": "1.0.0",
+  "description": "A simple example project for the microbit using C++.",
+  "license": "MIT",
+  "dependencies": {
+    "microbit": "lancaster-university/microbit"
+  },
+  "targetDependencies": {},
+  "bin": "./source"
+}
