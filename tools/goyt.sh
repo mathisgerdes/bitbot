@@ -43,3 +43,5 @@ if yt build; then
 else
   exit 1
 fi
+
+sudo umount $MOUNT_DIR
