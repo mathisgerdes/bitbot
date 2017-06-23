@@ -17,7 +17,6 @@
   "homepage": "https://github.com/mathisgerdes/bitbot",
   "license": "MIT",
   "dependencies": {
-    "ubit-neopixel": "~0.0.0",
     "microbit": "lancaster-university/microbit"
   }
 }
