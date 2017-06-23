@@ -1,0 +1,23 @@
+{
+  "name": "bitbot",
+  "version": "0.0.0",
+  "description": "Library for controlling the 4tronix Bit:Bot.",
+  "keywords": [
+    "bitbot",
+    "microbit",
+    "\"bit:bot\"",
+    "\"micro:bit\"",
+    "neopixel"
+  ],
+  "author": "Mathis Gerdes <MathisGerdes@gmail.com>",
+  "repository": {
+    "url": "https://github.com/mathisgerdes/bitbot.git",
+    "type": "git"
+  },
+  "homepage": "https://github.com/mathisgerdes/bitbot",
+  "license": "MIT",
+  "dependencies": {
+    "ubit-neopixel": "~0.0.0",
+    "microbit": "lancaster-university/microbit"
+  }
+}
