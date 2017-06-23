@@ -1,0 +1,105 @@
+#include <algorithm>  // for std::copy
+#include "bitbot/neopixel.h"
+
+
+Color::Color(): g(0), r(0), b(0) { }
+Color::Color(uint8_t rr, uint8_t gg, uint8_t bb) : g(gg), r(rr), b(bb) { }
+
+Neopixel::Neopixel(PinName pin, uint16_t ledCnt)
+  : pinNum(pin), ledCount{ledCnt}
+{
+  const uint8_t PIN = pinNum;
+  nrf_gpio_cfg_output(PIN);
+  NRF_GPIO->OUTCLR = (1UL << PIN);
+  leds = new Color[ledCount];
+}
+
+Neopixel::Neopixel(Neopixel& np)
+{
+  pinNum = np.pinNum;
+  ledCount = np.ledCount;
+  leds = new Color[ledCount];
+  std::copy(np.begin(), np.end(), leds);
+}
+
+Neopixel::Neopixel(Neopixel&& np)
+{
+  pinNum = np.pinNum;
+  ledCount = np.ledCount;
+  leds = np.leds;
+  np.leds = nullptr;
+}
+
+Neopixel::~Neopixel()
+{
+  delete[] leds;
+  ledCount = 0;
+  pinNum = 0;
+}
+
+void Neopixel::clear() {
+  for (Color& led: *this) {
+    led.g = 0;
+    led.r = 0;
+    led.b = 0;
+  }
+  show();
+}
+
+void Neopixel::show() {
+  const uint8_t PIN =  pinNum;
+  NRF_GPIO->OUTCLR = (1UL << PIN);
+  nrf_delay_us(50);
+  uint32_t irq_state = __get_PRIMASK();
+  __disable_irq();
+
+  for (int i = 0; i < ledCount; i++) {
+    for (int j = 0; j < 3; j++) {
+      if ((leds[i].grb[j] & 128) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 64) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 32) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 16) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 8) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 4) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 2) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+
+      if ((leds[i].grb[j] & 1) > 0)	{NEOPIXEL_SEND_ONE}
+      else	{NEOPIXEL_SEND_ZERO}
+    }
+  }
+  __set_PRIMASK(irq_state);
+}
+
+
+uint8_t Neopixel::setColor(uint16_t index, uint8_t r, uint8_t g, uint8_t b)
+{
+  if (index < ledCount) {
+    leds[index].r = r;
+    leds[index].g = g;
+    leds[index].b = b;
+    return 0;
+  }
+  return 1;
+}
+
+uint8_t Neopixel::showColor(uint16_t index, uint8_t r, uint8_t g, uint8_t b)
+{
+  if (setColor(index, r, g, b) == 0) {
+    show();
+    return 0;
+  }
+  return 1;
+}
