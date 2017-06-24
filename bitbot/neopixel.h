@@ -54,15 +54,15 @@ struct Color {
 
 
 /**
-  Class for manipulating a array of neopixels.
+  Class for manipulating an array of neopixels.
 
   Stores an array (buffer) of color values for the leds,
   to make changes to the object visible call show().
 */
 class Neopixel {
 private:
-  uint8_t pinNum;
-  uint16_t ledCount;
+  uint8_t pin_num;
+  uint16_t led_count;
   Color* leds;
 public:
   /**
@@ -70,7 +70,7 @@ public:
     @param[in] name of output pin (e.g. MICROBIT_PIN_P9)
   	@param[in] count of leds
   */
-  Neopixel(PinName pin, uint16_t ledCount);
+  Neopixel(PinName pin, uint16_t led_count);
 
   Neopixel(Neopixel& np);
   Neopixel(Neopixel&& np);
@@ -78,7 +78,7 @@ public:
 
   // iterator
   Color* begin() { return leds; }
-  Color* end() { return leds + ledCount; }
+  Color* end() { return leds + led_count; }
 
   /**
     @brief Turn all LEDs off (set to r=g=b=0 and show)

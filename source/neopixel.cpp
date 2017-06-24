@@ -5,27 +5,27 @@
 Color::Color(): g(0), r(0), b(0) { }
 Color::Color(uint8_t rr, uint8_t gg, uint8_t bb) : g(gg), r(rr), b(bb) { }
 
-Neopixel::Neopixel(PinName pin, uint16_t ledCnt)
-  : pinNum(pin), ledCount{ledCnt}
+Neopixel::Neopixel(PinName pin, uint16_t count)
+  : pin_num(pin), led_count{count}
 {
-  const uint8_t PIN = pinNum;
+  const uint8_t PIN = pin_num;
   nrf_gpio_cfg_output(PIN);
   NRF_GPIO->OUTCLR = (1UL << PIN);
-  leds = new Color[ledCount];
+  leds = new Color[led_count];
 }
 
 Neopixel::Neopixel(Neopixel& np)
 {
-  pinNum = np.pinNum;
-  ledCount = np.ledCount;
-  leds = new Color[ledCount];
+  pin_num = np.pin_num;
+  led_count = np.led_count;
+  leds = new Color[led_count];
   std::copy(np.begin(), np.end(), leds);
 }
 
 Neopixel::Neopixel(Neopixel&& np)
 {
-  pinNum = np.pinNum;
-  ledCount = np.ledCount;
+  pin_num = np.pin_num;
+  led_count = np.led_count;
   leds = np.leds;
   np.leds = nullptr;
 }
@@ -33,8 +33,8 @@ Neopixel::Neopixel(Neopixel&& np)
 Neopixel::~Neopixel()
 {
   delete[] leds;
-  ledCount = 0;
-  pinNum = 0;
+  led_count = 0;
+  pin_num = 0;
 }
 
 void Neopixel::clear() {
@@ -47,13 +47,13 @@ void Neopixel::clear() {
 }
 
 void Neopixel::show() {
-  const uint8_t PIN =  pinNum;
+  const uint8_t PIN =  pin_num;
   NRF_GPIO->OUTCLR = (1UL << PIN);
   nrf_delay_us(50);
   uint32_t irq_state = __get_PRIMASK();
   __disable_irq();
 
-  for (int i = 0; i < ledCount; i++) {
+  for (int i = 0; i < led_count; i++) {
     for (int j = 0; j < 3; j++) {
       if ((leds[i].grb[j] & 128) > 0)	{NEOPIXEL_SEND_ONE}
       else	{NEOPIXEL_SEND_ZERO}
@@ -86,7 +86,7 @@ void Neopixel::show() {
 
 uint8_t Neopixel::setColor(uint16_t index, uint8_t r, uint8_t g, uint8_t b)
 {
-  if (index < ledCount) {
+  if (index < led_count) {
     leds[index].r = r;
     leds[index].g = g;
     leds[index].b = b;
