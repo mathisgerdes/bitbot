@@ -12,7 +12,8 @@ int main()
   Motor motor;
 
   motor.setLeftPercent(Direction::BACKWARDS, 50);
-
+  fiber_sleep(1000);
+  motor.setSpeedPercent(100, 100);
   fiber_sleep(1000);
 
   motor.stop();

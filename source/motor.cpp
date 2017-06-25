@@ -32,15 +32,15 @@ inline void setMotorPins(MicroBitPin& pin_dir, Direction dir,
 void Motor::setLeft(Direction dir, int speed)
 {
   setMotorPins(pins.left_dir, dir, pins.left_speed, speed);
-  state.left_dir = dir;
-  state.left_speed = speed;
+  state.dir_left = dir;
+  state.speed_left = speed;
 }
 
 void Motor::setRight(Direction dir, int speed)
 {
   setMotorPins(pins.right_dir, dir, pins.right_speed, speed);
-  state.right_dir = dir;
-  state.right_speed = speed;
+  state.dir_right = dir;
+  state.speed_right = speed;
 }
 
 void Motor::setLeftPercent(Direction dir, float speed)
@@ -57,4 +57,98 @@ void Motor::stop()
 {
   setLeft(Direction::FORWARDS, 0);
   setRight(Direction::FORWARDS, 0);
+}
+
+void Motor::setSpeed(Direction dir, int speed_left, int speed_right)
+{
+  setLeft(dir, speed_left);
+  setRight(dir, speed_right);
+}
+
+void Motor::setSpeed(int speed_left, int speed_right)
+{
+  if (speed_left >= 0) {
+    setLeft(Direction::FORWARDS, speed_left);
+  } else {
+    setLeft(Direction::BACKWARDS, -speed_left);
+  }
+
+  if (speed_right >= 0) {
+    setRight(Direction::FORWARDS, speed_right);
+  } else {
+    setRight(Direction::BACKWARDS, -speed_right);
+  }
+}
+
+void Motor::setSpeed(int speed)
+{
+  Direction dir {Direction::FORWARDS};
+  if (speed < 0) {
+    dir = Direction::BACKWARDS;
+    speed = -speed;
+  }
+  setLeft(dir, speed);
+  setRight(dir, speed);
+}
+
+void Motor::setSpeedPercent(Direction dir, float speed_left, float speed_right)
+{
+  setLeftPercent(dir, speed_left);
+  setRightPercent(dir, speed_right);
+}
+
+void Motor::setSpeedPercent(float speed_left, float speed_right)
+{
+  if (speed_left >= 0) {
+    setLeftPercent(Direction::FORWARDS, speed_left);
+  } else {
+    setLeftPercent(Direction::BACKWARDS, -speed_left);
+  }
+
+  if (speed_right >= 0) {
+    setRightPercent(Direction::FORWARDS, speed_right);
+  } else {
+    setRightPercent(Direction::BACKWARDS, -speed_right);
+  }
+}
+
+void Motor::setSpeedPercent(float speed)
+{
+  Direction dir {Direction::FORWARDS};
+  if (speed < 0) {
+    dir = Direction::BACKWARDS;
+    speed = -speed;
+  }
+  setLeftPercent(dir, speed);
+  setRightPercent(dir, speed);
+}
+
+int Motor::getSpeedLeft()
+{
+  return state.speed_left;
+}
+
+float Motor::getSpeedLeftPercent()
+{
+  return state.speed_left / 100.0;
+}
+
+Direction Motor::getDirectionLeft()
+{
+  return state.dir_left;
+}
+
+int Motor::getSpeedRight()
+{
+  return state.speed_right;
+}
+
+float Motor::getSpeedRightPercent()
+{
+  return state.speed_right / 100.0;
+}
+
+Direction Motor::getDirectionRight()
+{
+  return state.dir_right;
 }

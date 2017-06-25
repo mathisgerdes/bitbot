@@ -16,8 +16,8 @@ private:
     MicroBitPin left_dir, left_speed, right_dir, right_speed;
   } pins;
   struct {
-    Direction left_dir, right_dir;
-    int left_speed, right_speed;
+    Direction dir_left, dir_right;
+    int speed_left, speed_right;
   } state;
 public:
   /**
@@ -67,4 +67,76 @@ public:
     @brief Stop moving
   */
   void stop();
+
+  /**
+    @brief Set direction, and speed for each side
+    @param[in] direction
+    @param[in] speed of left wheel; range [0,1023]
+    @param[in] speed of right wheel; range [0,1023]
+  */
+  void setSpeed(Direction dir, int speed_left, int speed_right);
+
+  /**
+    @brief Set speed for each side and infer direction from sign
+    @param[in] speed of left wheel; range [-1023, 1023]
+    @param[in] speed of right wheel; range [-1023, 1023]
+  */
+  void setSpeed(int speed_left, int speed_right);
+
+  /**
+    @brief Move straight at a given velocity
+    @param[in] speed where negative implies backwards; range [-1023, 1023]
+  */
+  void setSpeed(int speed);
+
+  /**
+    @brief Set direction, and speed for each side in percent
+    @param[in] direction
+    @param[in] speed of left wheel; range [0.0,100.0]
+    @param[in] speed of right wheel; range [0.0,100.0]
+  */
+  void setSpeedPercent(Direction dir, float speed_left, float speed_right);
+
+  /**
+    @brief Set speed for each side in percent and infer direction from sign
+    @param[in] speed of left wheel in percent; range [-100.0, 100.0]
+    @param[in] speed of right wheel in percent; range [-100.0, 100.0]
+  */
+  void setSpeedPercent(float speed_left, float speed_right);
+
+  /**
+    @brief Move straight at a given velocity
+    @param[in] speed where negative implies backwards; range [-1023, 1023]
+  */
+  void setSpeedPercent(float speed);
+
+  /**
+    @return current speed of left wheel in range [0, 1023]
+  */
+  int getSpeedLeft();
+
+  /**
+    @return current speed of left wheel in percent
+  */
+  float getSpeedLeftPercent();
+
+  /**
+    @return current direction of left wheel
+  */
+  Direction getDirectionLeft();
+
+  /**
+    @return current speed of right wheel in range [0, 1023]
+  */
+  int getSpeedRight();
+
+  /**
+    @return current speed of right wheel in percent
+  */
+  float getSpeedRightPercent();
+
+  /**
+    @return current direction of right wheel
+  */
+  Direction getDirectionRight();
 };
