@@ -22,4 +22,6 @@ int main()
   np.clear();
 
   fiber_sleep(2000);
+  
+  release_fiber();
 }
