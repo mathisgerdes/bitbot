@@ -17,6 +17,6 @@
   "homepage": "https://github.com/mathisgerdes/bitbot",
   "license": "MIT",
   "dependencies": {
-    "microbit": "lancaster-university/microbit"
+    "microbit-dal": "lancaster-university/microbit-dal"
   }
 }

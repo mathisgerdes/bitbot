@@ -1,4 +1,5 @@
-#include "MicroBit.h"
+#include "MicroBitMessageBus.h"
+#include "MicroBitFiber.h"
 #include "bitbot/motor.h"
 
 // needed for fiber

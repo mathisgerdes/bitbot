@@ -1,4 +1,5 @@
-#include "MicroBit.h"
+#include "MicroBitMessageBus.h"
+#include "MicroBitFiber.h"
 #include "bitbot/neopixel.h"
 
 // needed for fiber
@@ -14,14 +15,12 @@ int main()
 
   fiber_sleep(2000);
 
-  uint8_t error = np.showColor(9, 255, 0, 159);
-
+  // returns 1 if index (here 9) was out of bounds
+  np.showColor(9, 255, 0, 159);
 
   fiber_sleep(2000);
 
   np.clear();
 
-  fiber_sleep(2000);
-  
   release_fiber();
 }

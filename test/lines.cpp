@@ -1,11 +1,9 @@
-#include "MicroBitDisplay.h"
 #include "MicroBitMessageBus.h"
-#include "MicroBitButton.h"
+#include "MicroBitFiber.h"
 #include "bitbot/bitbot.h"
 
 MicroBitMessageBus bus;
 BitBot bitbot;
-MicroBitDisplay display;
 
 int main()
 {
