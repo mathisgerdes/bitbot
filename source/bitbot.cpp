@@ -1,3 +1,4 @@
+#include "MicroBitButton.h"
 #include "bitbot/bitbot.h"
 
 BitBot::BitBot()
@@ -14,17 +15,34 @@ BitBot::BitBot()
       MicroBitPin(MICROBIT_ID_IO_P11, MICROBIT_PIN_P11, PIN_CAPABILITY_DIGITAL_IN),
       // line dectector right (1 - detected)
       MicroBitPin(MICROBIT_ID_IO_P5, MICROBIT_PIN_P5, PIN_CAPABILITY_DIGITAL_IN)
-    },
-    message_bus()
-{
-  // Initialize fiber scheduler so sleep is enabled
-  scheduler_init(message_bus);
-}
-
+    }
+{ }
 
 void BitBot::buzz(float microseconds)
 {
   pins.buzzer.setDigitalValue(1);
   fiber_sleep(microseconds);
   pins.buzzer.setDigitalValue(0);
+}
+
+int BitBot::lightLeft()
+{
+  pins.light_sensor_control.setDigitalValue(0); // select left sensor
+  return pins.light_sensor.getAnalogValue();
+}
+
+int BitBot::lightRight()
+{
+  pins.light_sensor_control.setDigitalValue(1); // select right sensor
+  return pins.light_sensor.getAnalogValue();
+}
+
+bool BitBot::isLineLeft()
+{
+  return pins.line_sensor_left.getDigitalValue() == 1;
+}
+
+bool BitBot::isLineRight()
+{
+  return pins.line_sensor_right.getDigitalValue() == 1;
 }
